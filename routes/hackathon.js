@@ -7,7 +7,7 @@ const { handleShowAllHackathons, handleDescribeHackathon, handleCreateHackathon 
 const { requireAuth } = require("../middlewares/user");
 
 router
-    .post("/createHackathon", requireAuth,  handleCreateHackathon)
+    .post("/createHackathon", requireAuth, handleCreateHackathon)
 
     .get("/", handleShowAllHackathons)
 

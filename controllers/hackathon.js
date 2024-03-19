@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Hackathon =require("../models/hackathon-model")
+const Hackathon =require("../models/doctor-model")
 function handleShowAllHackathons (req, res) {
     //
 }

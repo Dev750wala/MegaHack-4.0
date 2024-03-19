@@ -16,7 +16,7 @@ app.set("view engine", "ejs");
 // app.use(express.urlencoded({ extended: false }));
 
 // All the routes to handle the req.
-app.use('*', checkUser);
+// app.use('*', checkUser);
 app.use("/", staticRoute);
 app.use("/user", userRoute);
 app.use("/hackathon", hackathonRoute);

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const USER = require("../models/user-model")
+const USER = require("../models/patient")
 const jwt = require("jsonwebtoken");
 const keys = require("../secrets/key");
 const validator = require("validator");
