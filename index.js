@@ -1,7 +1,7 @@
 const express = require("express");
 const keys = require("./secrets/key");
 const userRoute = require("./routes/user");
-const hackathonRoute = require("./routes/hackathon");
+const patientRoute = require("./routes/patient");
 const staticRoute = require("./routes/staticRoutes");
 const { connectToDB } = require("./connection");
 const { checkUser } = require("./middlewares/user");
@@ -19,7 +19,7 @@ app.set("view engine", "ejs");
 // app.use('*', checkUser);
 app.use("/", staticRoute);
 app.use("/user", userRoute);
-app.use("/hackathon", hackathonRoute);
+app.use("/patient", patientRoute);
 // app.use("/demo", (req, res) => {
 //     console.log(req);
 // })

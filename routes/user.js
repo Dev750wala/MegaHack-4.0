@@ -14,6 +14,6 @@ router
 
     .get("/logout", handleUserLogout)
     
-    .get("/:username", handleUserProfile);
+    // .get("/:username", handleUserProfile);
 
 module.exports = router;

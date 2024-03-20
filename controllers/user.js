@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const USER = require("../models/patient")
+const USER = require("../models/doctor-model")
 const jwt = require("jsonwebtoken");
 const keys = require("../secrets/key");
 const validator = require("validator");
@@ -41,24 +41,17 @@ function handleErrors(err) {
 }
 
 async function handleUserSignup (req, res) {
-    const body = req.body;
+    const { fullName, username, email, dob, password } = req.body;
 
     try {
         const newUser = await USER.create({
-            enrollmentNumber: body.enrollmentNumber,
-            username: body.username,
-            email: body.email,
-            password: body.password,
-            biography: body.biography,
-            fullName: body.fullName,
-            contact_no: body.contact_no,
-            skills: body.skills,
-            portfolio: body.portfolio,
-            socialLinks: {
-                linkedin: body.linkedin,
-                github: body.github,
-            }
+            fullName: fullName,
+            username: username,
+            email: email,
+            dob: dob,
+            password: password,
         });
+
         const token = createToken(newUser._id);
 
         res.cookie("jwt", token, {
@@ -76,7 +69,7 @@ async function handleUserSignup (req, res) {
 async function handleUserLogin (req, res) {
     const { usernameOrEmail, password } = req.body;
     var input = "";
-    validator.isEmail(usernameOrEmail) ? input="email" : input="password";
+    validator.isEmail(usernameOrEmail) ? input="email" : input="username";
     
     try {
         const user = await USER.login(input, usernameOrEmail, password);
@@ -94,9 +87,11 @@ async function handleUserLogin (req, res) {
     }
 }
 
-async function handleUserProfile (req, res) {
-    res.send("You are at profile page");
-}
+// async function handleUserProfile (req, res) {
+//     res.json({
+//         user: req.user,
+//     });
+// }
 
 async function handleUserLogout (req, res) {
     console.log("logging out");

@@ -40,7 +40,7 @@ doctorSchema.statics.login = async function (input, usernameOrEmail, password) {
 
     if(input === "email") {
         doctor = await this.findOne({email: usernameOrEmail});
-    } else {
+    } else if(input === "username") {
         doctor = await this.findOne({username: usernameOrEmail});
     }
     
