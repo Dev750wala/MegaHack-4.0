@@ -1,44 +1,60 @@
 const mongoose = require("mongoose");
-const Hackathon =require("../models/doctor-model")
+const PATIENT =require("../models/patient")
 
 
-function handleShowAllHackathons (req, res) {
-    //
+function handleShowNewPatientPage (req, res) {
+    res.render("newPatient");
+    console.log("You are at new patient form page.");
 }
 
-function handleDescribeHackathon (req, res) {
-    console.log("you are seeing the description of the hackathon");
+async function handleDescribePatient (req, res) {
+    const patientId = req.params.patientId;
+
+    const patient = await PATIENT.find({
+        patientId: patientId,
+    });
+
+    if (patient) {
+        res.json({
+            patient: patient,
+        });
+    } else {
+        res.json({
+            error: "patient not found"
+        });
+    }
 }
 
-async function handleCreateHackathon (req, res) {
-    const obj = req.body;
+async function handleCreateNewPatient (req, res) {
+    const { fullName, patientId, email, dateOfBirth, gender, contact_no, deseases, patientOf } = req.body;
 
     try {
         const newHackathon = await new Hackathon({
-            name: obj.name,
-            description: obj.description,
-            start: obj.start,
-            end: obj.end,
-            location: obj.location,
-            // BHAI aama chhe ne organizer ma pella user check karje cookies mathi, pachi cookies mathi je user male tenu naam organizer ma add karje.
-            // organizer: req.user,
-            maxParticipants: obj.maxParticipants,
-            judges: obj.judges,
-            prizes: obj.prizes,
-            rulesAndRegulations: obj.rulesAndRegulations,
-            theme: obj.theme,
-            techTags: obj.techTags,
+            fullName: fullName,
+            patientId: patientId,
+            email: email,
+            dateOfBirth: dateOfBirth,
+            gender: gender,
+            contact_no: contact_no,
+            deseases: deseases,
+            patientOf: patientOf,
         });
-
-
+        res.json({
+            hackathon: newHackathon,
+        });
     } catch (error) {
         console.log(error);
     }
-    console.log("you are seeing the description of the hackathon");
+    // console.log("you are seeing the description of the hackathon");
+}
+
+async function handleCreateNewRecord (req, res) {
+    
 }
 
 module.exports = {
-    handleShowAllHackathons,
-    handleDescribeHackathon,
-    handleCreateHackathon
+    handleShowNewPatientPage,
+    handleDescribePatient,
+    handleCreateNewPatient,
+    handleCreateNewRecord
 }

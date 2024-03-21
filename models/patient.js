@@ -61,8 +61,6 @@ patientSchema.pre("save", async function(next) {
     next();
 })
 
-
-
 const USER = mongoose.model('user', userSchema);
 
 module.exports = USER;
