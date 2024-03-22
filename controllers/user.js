@@ -3,6 +3,7 @@ const USER = require("../models/doctor-model")
 const jwt = require("jsonwebtoken");
 const keys = require("../secrets/key");
 const validator = require("validator");
+const { formatDate } = require("../functions/date-formatter");
 
 const maxAge = 3 * 24 * 60 * 60;
 
@@ -36,19 +37,22 @@ function handleErrors(err) {
             errors[properties.path] = properties.message;
         });
     }
-  
+    console.log(`Error is: ${errors}`);
     return errors;
 }
 
 async function handleUserSignup (req, res) {
-    const { fullName, username, email, dob, password } = req.body;
+    const { firstName, lastName, username, email, dob, password } = req.body;
 
+    const fullName = firstName + lastName;
+    const finalDob = formatDate(dob);
+    // console.log(fullName + ' ' + username + ' ' + finalDob + ' ' + email + ' ' + password);
     try {
         const newUser = await USER.create({
             fullName: fullName,
             username: username,
             email: email,
-            dob: dob,
+            dob: finalDob,
             password: password,
         });
 
@@ -68,6 +72,7 @@ async function handleUserSignup (req, res) {
 
 async function handleUserLogin (req, res) {
     const { usernameOrEmail, password } = req.body;
+    // console.log(usernameOrEmail, password);
     var input = "";
     validator.isEmail(usernameOrEmail) ? input="email" : input="username";
     
@@ -83,7 +88,7 @@ async function handleUserLogin (req, res) {
 
     } catch (error) {
         const err = handleErrors(error);
-        return res.json({ error: err });
+        return res.json({ errors: err });
     }
 }
 
