@@ -20,7 +20,7 @@ const doctorSchema = new mongoose.Schema({
         required: true,
     },
     password: {
-        type: Date,
+        type: String,
         required: true,
     },
 })

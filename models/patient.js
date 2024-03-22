@@ -61,6 +61,6 @@ patientSchema.pre("save", async function(next) {
     next();
 })
 
-const USER = mongoose.model('user', userSchema);
+const USER = mongoose.model('patient', patientSchema);
 
 module.exports = USER;

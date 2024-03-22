@@ -11,6 +11,7 @@ connectToDB("mongodb://127.0.0.1:27017/megahack")
     .then(() => console.log("MongoDB connected!"))
     .catch((e) => console.log(`Unexpected error occurred: ${e}`));
 
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.set("view engine", "ejs");
 // app.use(express.urlencoded({ extended: false }));

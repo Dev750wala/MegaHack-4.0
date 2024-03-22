@@ -26,10 +26,10 @@ async function handleDescribePatient (req, res) {
 }
 
 async function handleCreateNewPatient (req, res) {
-    const { fullName, patientId, email, dateOfBirth, gender, contact_no, deseases, patientOf } = req.body;
+    const { fullName, patientId, email, dateOfBirth, gender, contact_no, deseases } = req.body;
 
     try {
-        const newHackathon = await new Hackathon({
+        const newPatient = await new Hackathon({
             fullName: fullName,
             patientId: patientId,
             email: email,
@@ -37,10 +37,10 @@ async function handleCreateNewPatient (req, res) {
             gender: gender,
             contact_no: contact_no,
             deseases: deseases,
-            patientOf: patientOf,
+            patientOf: req.user,
         });
         res.json({
-            hackathon: newHackathon,
+            patient: newPatient,
         });
     } catch (error) {
         console.log(error);

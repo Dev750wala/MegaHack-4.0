@@ -104,6 +104,6 @@ async function handleUserLogout (req, res) {
 module.exports = {
     handleUserSignup,
     handleUserLogin,
-    handleUserProfile,
+    // handleUserProfile,
     handleUserLogout,
 }
