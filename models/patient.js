@@ -58,6 +58,7 @@ const patientSchema = new mongoose.Schema({
 
 patientSchema.pre("save", async function(next) {
     this.patientId = Math.floor(Math.random()*1000000);
+    console.log("Hello World!");
     next();
 })
 

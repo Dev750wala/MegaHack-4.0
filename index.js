@@ -23,6 +23,7 @@ app.use('*', checkUser);
 app.use("/", staticRoute);
 app.use("/user", userRoute);
 app.use("/patient", patientRoute);
+console.log("Hello World!");
 // app.use("/demo", (req, res) => {
 //     console.log(req);
 // })

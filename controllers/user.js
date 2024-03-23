@@ -90,6 +90,7 @@ async function handleUserLogin (req, res) {
         const err = handleErrors(error);
         return res.json({ errors: err });
     }
+    console.log("Hello World!");
 }
 
 // async function handleUserProfile (req, res) {

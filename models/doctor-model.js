@@ -49,6 +49,7 @@ doctorSchema.statics.login = async function (input, usernameOrEmail, password) {
         const auth = await bcrypt.compare(password, doctor.password);
         if (auth) return doctor;
         throw Error("Incorrect password");
+        console.log("Hello World!");
     }
     throw Error("User not found");
 }

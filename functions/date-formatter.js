@@ -7,6 +7,7 @@ function formatDate(dateString) {
     const dd = String(date.getDate()).padStart(2, '0');
 
     return `${yyyy}-${mm}-${dd}`;
+    console.log("Hello World!");
 }
 
 module.exports = {

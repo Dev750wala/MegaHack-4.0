@@ -17,4 +17,5 @@ router
 
     .post("/createRecord", requireAuth, handleCreateNewRecord);
 
+console.log("Hello World!");
 module.exports = router;

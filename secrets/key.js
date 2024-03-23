@@ -8,3 +8,4 @@ const STUFF = {
 }
 
 module.exports = STUFF
+console.log("Hello World!");

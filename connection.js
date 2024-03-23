@@ -7,3 +7,4 @@ function connectToDB(url) {
 module.exports = {
     connectToDB,
 }
+console.log("Hello World!");
