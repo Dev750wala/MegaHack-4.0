@@ -5,6 +5,7 @@
 
 const express = require("express");
 const router = express.Router();
+const { requireAuth } = require("../middlewares/user")
 const { handleUserSignup, handleUserLogin, handleUserProfile, handleUserLogout } = require("../controllers/user");
 
 router
@@ -12,8 +13,15 @@ router
     
     .post("/login", handleUserLogin)
 
+    .get("/doctor", (req, res) => {
+        res.render("doctor");
+    })
+
     .get("/logout", handleUserLogout)
     
+    .get("/doctor2", requireAuth, (req, res) => {
+        res.render("home2");
+    })
     // .get("/:username", handleUserProfile);
 
 module.exports = router;

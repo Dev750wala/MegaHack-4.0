@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const PATIENT =require("../models/patient")
-
+const { spawn } = require('child_process');
+const path = require('path');
 
 function handleShowNewPatientPage (req, res) {
     res.render("newPatient");
-    console.log("You are at new patient form page.");
+    // console.log("You are at new patient form page.");
 }
 
 async function handleDescribePatient (req, res) {
@@ -26,18 +27,18 @@ async function handleDescribePatient (req, res) {
 }
 
 async function handleCreateNewPatient (req, res) {
-    const { fullName, patientId, email, dateOfBirth, gender, contact_no, deseases } = req.body;
+    const { fullName, email, dateOfBirth, gender, contact_no, deseases } = req.body;
 
     try {
-        const newPatient = await new Hackathon({
+        const newPatient = await new PATIENT({
             fullName: fullName,
-            patientId: patientId,
+            // patientId: patientId,
             email: email,
             dateOfBirth: dateOfBirth,
             gender: gender,
             contact_no: contact_no,
             deseases: deseases,
-            patientOf: req.user,
+            patientOf: req.user._id,
         });
         res.json({
             patient: newPatient,
@@ -48,9 +49,34 @@ async function handleCreateNewPatient (req, res) {
     // console.log("you are seeing the description of the hackathon");
 }
 
-async function handleCreateNewRecord (req, res) {
-    
+async function handleCreateNewRecord(req, res) {
+    const pythonScript = path.join(__dirname, 'scanner.py');
+    const imagePath = path.join(__dirname, 'demo.png');
+
+    const pythonProcess = spawn('python', [pythonScript, imagePath]);
+    let outputData = '';
+
+    pythonProcess.stdout.on('data', (data) => {
+        outputData += data.toString();
+    });
+
+    pythonProcess.stderr.on('data', (data) => {
+        console.error(`Python script stderr: ${data.toString()}`);
+    });
+
+    pythonProcess.on('close', (code) => {
+        console.log(`Python script process exited with code ${code}`);
+        if (code === 0) {
+            console.log('Process completed successfully');
+            res.json({ success: true, data: outputData });
+        } else {
+            console.error('Process failed');
+            res.status(500).json({ success: false, error: 'Process failed' });
+        }
+    });
 }
+
+
 
 module.exports = {
     handleShowNewPatientPage,

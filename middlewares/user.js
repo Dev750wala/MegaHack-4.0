@@ -1,13 +1,18 @@
-const USER = require("../models/patient");
-const jwt = require("jsonwebtoken");
+const USER = require("../models/doctor-model");
+const jwtToken = require("jsonwebtoken");
 const keys = require("../secrets/key");
 
 const requireAuth = (req, res, next) => {
     const token = req.cookies.jwt;
 
     if(token) {
-        jwt.verify(token, keys.tokenSecretKey, (error, decodedToken) => {
-            error ? res.redirect("/user/login") : next();
+        jwtToken.verify(token, keys.tokenSecretKey.key, async (error, decodedToken) => {
+            if (error) {
+                // console.error(error); 
+                res.redirect("/user/login");
+            } else {
+                next();
+            }
         })
     } else {
         res.redirect("/user/login");
@@ -16,15 +21,18 @@ const requireAuth = (req, res, next) => {
 
 const checkUser = (req, res, next) => {
     const token = req.cookies.jwt;
-
+    // console.log(token);
     if(token) {
-        jwt.verify(token, keys.tokenSecretKey, async (error, decodedToken) => {
-            if(error) {
+        jwtToken.verify(token, keys.tokenSecretKey.key, async (err, decodedToken) => {
+            if(err) {
                 req.user = null;
+                // console.log(req.user);
                 next();
             } else {
-                const user = await USER.findById(decodedToken.id);
+                let user = await USER.findById(decodedToken.id);
+
                 req.user = user;
+                // console.log(req.user);
                 next();
             }
         });
@@ -32,8 +40,7 @@ const checkUser = (req, res, next) => {
         req.user = null;
         next();
     }
-    next();
-}
+};
 
 module.exports = {
     requireAuth,
